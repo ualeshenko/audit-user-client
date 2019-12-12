@@ -1,0 +1,11 @@
+[Unit]
+Description=Clien Audit
+
+[Service]
+ExecStart=/srv/client-audit.sh
+Restart=on-failure
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

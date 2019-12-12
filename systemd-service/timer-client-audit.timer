@@ -1,0 +1,10 @@
+[Unit]
+Description=Run timer client-audit every 5 seconds
+Requires=client-audit.service
+
+[Timer]
+Unit=client-audit.service
+OnCalendar=*:*:0/5
+
+[Install]
+WantedBy=timers.target
