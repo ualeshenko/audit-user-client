@@ -1,0 +1,1 @@
+* * * * * /srv/cron-client.sh 2>&1 | systemd-cat -t cron-client
