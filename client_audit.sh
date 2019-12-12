@@ -1,14 +1,14 @@
 #!/bin/bash
 
 set_env () {
-    url_api="http://localhost:5000/post"
-    cron_client_audit='/home/vagrant/NURE/audit-user-client/cron-client.sh 2>&1 | systemd-cat -t cron-client'
-    echo "id_mb:" ; read id_mb #id_mb=`dmidecode | grep UUID | cut -d" " -f2`
-    echo "ipv4:" ; read ipv4 #ipv4="192.168.111.201" #`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
-    echo "mac-address" ; read mac_address  #"mac_address="`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`"
+    url_api="http://192.168.13.13:5000/post"
+    cron_client_audit='/srv/audit-user-client/cron-client.sh 2>&1 | systemd-cat -t cron-client'
+    id_mb=`dmidecode | grep UUID | cut -d" " -f2`
+    ipv4=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
+    mac_address="`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`"
     timestamp=`date +"%H:%M:%S %d.%m.%Y"`
-    echo "hostname" ; read hostname #hostname=a-trushchenkova-pc.adminforum.online #"`hostname`"
-    echo "users"; read users #users="yurii-aleshchenko" #"`who | cut -d' ' -f1 | sort | uniq`"
+    hostname="`hostname`"
+    users="`who | cut -d' ' -f1 | sort | uniq`"
 }
 
 check_cron () {
@@ -24,7 +24,8 @@ check_cron () {
 }
 
 kill_users () {
-    pkill -9 -u $1
+    echo $1 "============================================================================"   
+    pkill -9 -u `echo $1 | grep -e "[a-z\.]*"`
 }
 
 post_to_api () {
@@ -36,10 +37,11 @@ post_to_api () {
                         \"users\": \"${users}\"}" \
    	      -H "Content-Type: application/json" \
 	      ${url_api}`
-    if [[ "${response}" -eq "Ok" ]]; then
+    echo "RESPONSE ============================================== ${response}"
+    if [ "${response}" == "Ok" ]; then
         echo "Ok"
     else
-        kill_users $( echo "${response}" | jq '.name' )
+        kill_users ${response}
     fi
 }
 

@@ -2,7 +2,7 @@
 Description=Clien Audit
 
 [Service]
-ExecStart=/home/vagrant/NURE/audit-user-client/client_audit.sh
+ExecStart=/srv/audit-user-client/client_audit.sh
 Restart=on-failure
 User=root
 Group=root
