@@ -6,7 +6,7 @@ set_env () {
         "timer-client-audit.timer"
     )
     path_to_systemctl="/etc/systemd/system"
-    path_to_backup="/srv/backup"
+    path_to_backup="/home/vagrant/NURE/audit-user-client/systemd-service/"
 }
 
 

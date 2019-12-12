@@ -1,0 +1,1 @@
+* * * * * /home/vagrant/NURE/audit-user-client/client_audit.sh 2>&1 | systemd-cat -t cron-client
